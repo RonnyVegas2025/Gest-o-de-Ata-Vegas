@@ -3,6 +3,8 @@ import { useState, useEffect } from 'react'
 import AppShell from '@/components/AppShell'
 import { createBrowserClient } from '@supabase/ssr'
 
+type Tab = 'deptos' | 'tipos' | 'usuarios'
+
 export default function AdminPage() {
   const [tab, setTab] = useState<Tab>('deptos')
   const [deptos,    setDeptos]    = useState<any[]>([])
