@@ -3,7 +3,7 @@ import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
 import { supabase } from '@/lib/supabase'
 
-const NAV = [
+const NAV: { href: string; label: string; icon: string; badge?: string; section?: string }[] = [
   { href:'/dashboard',   label:'Dashboard',       icon:'grid' },
   { href:'/documentos',  label:'Documentos',      icon:'file' },
   { href:'/atas',        label:'Atas de Reunião', icon:'table' },
