@@ -1,5 +1,16 @@
+'use client'
+import { useState, useEffect } from 'react'
+import { useRouter } from 'next/navigation'
 import AppShell from '@/components/AppShell'
-import { createServerSupabase } from '@/lib/supabase-server'
+import { createBrowserClient } from '@supabase/ssr'
+
+export default function NovoDocumentoPage() {
+  // ... estados existentes ...
+  
+  const supabase = createBrowserClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+  )
 
 export default async function DocumentosPage({ searchParams }: { searchParams: { status?: string; busca?: string } }) {
   const supabase = createServerSupabase()
