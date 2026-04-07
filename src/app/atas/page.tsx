@@ -1,5 +1,5 @@
 import AppShell from '@/components/AppShell'
-import { createServerSupabase } from '@/lib/supabase'
+import { createServerSupabase } from '@/lib/supabase-server'
 
 export default async function AtasPage() {
   const supabase = createServerSupabase()
