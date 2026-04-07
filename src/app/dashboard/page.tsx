@@ -12,8 +12,8 @@ export default async function DashboardPage() {
   ])
 
   const metrics = [
-    { label:'Total de Documentos', value: totalDocs ?? 0,  color:'#EEEDFE', iconColor:'#7F77DD', change:'+14 este mês', up:true },
-    { label:'Pendentes de Aprovação', value: pendentes ?? 0, color:'#FAEEDA', iconColor:'#BA7517', change:'Requer atenção', up:false },
+    { label:'Total de Documentos', value: totalDocs ?? 0,  color:'#EEEDFE', iconColor:'#7F77DD', change:'Total cadastrados', up:true },
+    { label:'Pendentes de Aprovação', value: pendentes ?? 0, color:'#FAEEDA', iconColor:'#BA7517', change:'Aguardando aprovação', up:false },
   ]
 
   return (
