@@ -22,14 +22,26 @@ export default function AdminPage() {
 
   async function loadAll() {
     setLoading(true)
-    const [d, t, u] = await Promise.all([
-      supabase.from('departamentos').select('id, nome, sigla, cor, ativo').order('nome'),
-      supabase.from('tipos_documento').select('*').eq('ativo', true).order('nome'),
-      supabase.from('perfis').select('*,departamentos(sigla)').order('nome'),
-    ])
-    setDeptos(d.data ?? [])
-    setTipos(t.data ?? [])
-    setUsuarios(u.data ?? [])
+    
+    const { data: d, error: e1 } = await supabase
+      .from('departamentos')
+      .select('*')
+    
+    const { data: t, error: e2 } = await supabase
+      .from('tipos_documento')
+      .select('*')
+    
+    const { data: u, error: e3 } = await supabase
+      .from('perfis')
+      .select('*')
+
+    console.log('DEPTOS:', d, 'ERRO:', e1)
+    console.log('TIPOS:', t, 'ERRO:', e2)
+    console.log('USERS:', u, 'ERRO:', e3)
+
+    setDeptos(d ?? [])
+    setTipos(t ?? [])
+    setUsuarios(u ?? [])
     setLoading(false)
   }
 
