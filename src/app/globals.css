@@ -1,1 +1,26 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body { font-family: 'Nunito', sans-serif; background: #F0EFF6; color: #2C2A40; }
+
+.brand-gradient { background: linear-gradient(135deg,#6B62D4,#C08080); }
+.brand-text      { background: linear-gradient(90deg,#5B52C2,#C97A7A); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
+.card            { background:#fff; border-radius:14px; border:1px solid #EAEAF0; overflow:hidden; }
+.btn-primary     { display:flex; align-items:center; gap:6px; padding:8px 14px; border-radius:10px; font-size:12.5px; font-weight:700; color:#fff; border:none; cursor:pointer; background:linear-gradient(135deg,#6B62D4,#C08080); transition:opacity .15s; font-family:'Nunito',sans-serif; }
+.btn-primary:hover   { opacity:.88; }
+.btn-secondary   { display:flex; align-items:center; gap:6px; padding:7px 13px; border-radius:10px; font-size:12px; font-weight:600; color:#7A798C; background:#fff; border:1px solid #EAEAF0; cursor:pointer; transition:background .15s; font-family:'Nunito',sans-serif; }
+.btn-secondary:hover { background:#F5F4FC; }
+.form-input      { width:100%; padding:9px 12px; border:1.5px solid #E4E3F0; border-radius:10px; font-size:12.5px; font-family:'Nunito',sans-serif; color:#2C2A40; background:#fff; outline:none; transition:border-color .18s; }
+.form-input:focus { border-color:#7F77DD; box-shadow:0 0 0 3px rgba(127,119,221,.1); }
+.form-input::placeholder { color:#C0BFCE; }
+.badge-aprovado  { display:inline-block; padding:2px 8px; border-radius:20px; font-size:10px; font-weight:700; background:#E1F5EE; color:#0F6E56; }
+.badge-pendente  { display:inline-block; padding:2px 8px; border-radius:20px; font-size:10px; font-weight:700; background:#FAEEDA; color:#854F0B; }
+.badge-rascunho  { display:inline-block; padding:2px 8px; border-radius:20px; font-size:10px; font-weight:700; background:#F1EFE8; color:#5F5E5A; }
+.badge-reprovado { display:inline-block; padding:2px 8px; border-radius:20px; font-size:10px; font-weight:700; background:#FCEBEB; color:#A32D2D; }
+.dept-chip       { display:inline-block; padding:2px 8px; border-radius:20px; font-size:10.5px; font-weight:700; background:#EEEDFE; color:#5B52C2; }
+.nav-item        { display:flex; align-items:center; gap:10px; padding:8px 12px; border-radius:10px; font-size:13px; color:#7A798C; cursor:pointer; font-weight:500; transition:all .15s; margin-bottom:2px; text-decoration:none; border:none; background:none; width:100%; text-align:left; font-family:'Nunito',sans-serif; }
+.nav-item:hover  { background:#F5F4FC; color:#3D3773; }
+.nav-item.active { background:linear-gradient(135deg,#EEEDFE,#FAF0EE); color:#5B52C2; font-weight:700; }
 
