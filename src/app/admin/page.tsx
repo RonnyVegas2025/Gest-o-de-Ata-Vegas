@@ -1,9 +1,7 @@
 'use client'
 import { useState, useEffect } from 'react'
 import AppShell from '@/components/AppShell'
-import { supabase } from '@/lib/supabase'
-
-type Tab = 'deptos' | 'tipos' | 'usuarios'
+import { createBrowserClient } from '@supabase/ssr'
 
 export default function AdminPage() {
   const [tab, setTab] = useState<Tab>('deptos')
@@ -11,12 +9,16 @@ export default function AdminPage() {
   const [tipos,     setTipos]     = useState<any[]>([])
   const [usuarios,  setUsuarios]  = useState<any[]>([])
   const [loading,   setLoading]   = useState(true)
-  // forms
   const [newDepto,  setNewDepto]  = useState({ nome:'', sigla:'' })
   const [newTipo,   setNewTipo]   = useState({ nome:'', prefixo:'', requer_aprovacao: true })
   const [showModal, setShowModal] = useState(false)
   const [newUser,   setNewUser]   = useState({ email:'', nome:'', perfil:'usuario', departamento_id:'' })
   const [saving,    setSaving]    = useState(false)
+
+  const supabase = createBrowserClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+  )
 
   useEffect(() => { loadAll() }, [])
 
