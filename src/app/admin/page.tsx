@@ -23,7 +23,7 @@ export default function AdminPage() {
   async function loadAll() {
     setLoading(true)
     const [d, t, u] = await Promise.all([
-      supabase.from('departamentos').select('*').eq('ativo', true).order('nome'),
+      supabase.from('departamentos').select('id, nome, sigla, cor, ativo').order('nome'),
       supabase.from('tipos_documento').select('*').eq('ativo', true).order('nome'),
       supabase.from('perfis').select('*,departamentos(sigla)').order('nome'),
     ])
