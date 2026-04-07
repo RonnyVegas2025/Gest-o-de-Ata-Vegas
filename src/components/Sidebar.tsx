@@ -5,8 +5,8 @@ import { supabase } from '@/lib/supabase'
 
 const NAV = [
   { href:'/dashboard',   label:'Dashboard',       icon:'grid' },
-  { href:'/documentos',  label:'Documentos',      icon:'file', badge:'12' },
-  { href:'/atas',        label:'Atas de Reunião', icon:'table', badge:'3' },
+  { href:'/documentos',  label:'Documentos',      icon:'file' },
+  { href:'/atas',        label:'Atas de Reunião', icon:'table' },
   { href:'/historico',   label:'Histórico',       icon:'clock' },
   { href:'/admin',       label:'Administração',   icon:'settings', section:'gestão' },
 ]
