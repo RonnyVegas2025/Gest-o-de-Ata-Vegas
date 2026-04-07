@@ -2,8 +2,9 @@
 import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
 import { createBrowserClient } from '@supabase/ssr'
+import { useState, useEffect } from 'react'
 
-const NAV: { href: string; label: string; icon: string; badge?: string; section?: string }[] = [
+const NAV: { href: string; label: string; icon: string; section?: string }[] = [
   { href:'/dashboard',  label:'Dashboard',       icon:'grid' },
   { href:'/documentos', label:'Documentos',      icon:'file' },
   { href:'/atas',       label:'Atas de Reunião', icon:'table' },
@@ -25,11 +26,26 @@ function Icon({ name }: { name: string }) {
 export default function Sidebar() {
   const path = usePathname()
   const router = useRouter()
+  const [usuario, setUsuario] = useState<{ nome: string; perfil: string } | null>(null)
 
   const supabase = createBrowserClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
   )
+
+  useEffect(() => {
+    async function carregarUsuario() {
+      const { data: { user } } = await supabase.auth.getUser()
+      if (!user) return
+      const { data: perfil } = await supabase
+        .from('perfis')
+        .select('nome, perfil')
+        .eq('id', user.id)
+        .single()
+      if (perfil) setUsuario(perfil)
+    }
+    carregarUsuario()
+  }, [])
 
   async function handleLogout() {
     await supabase.auth.signOut()
@@ -39,10 +55,19 @@ export default function Sidebar() {
   const principal = NAV.filter(n => !n.section)
   const gestao    = NAV.filter(n => n.section)
 
+  const initials = usuario?.nome
+    ? usuario.nome.split(' ').map((n: string) => n[0]).join('').slice(0, 2).toUpperCase()
+    : '?'
+
+  const perfilLabel: Record<string, string> = {
+    admin:   'Administrador',
+    gestor:  'Gestor',
+    usuario: 'Usuário',
+  }
+
   return (
     <aside style={{ width:230, minWidth:230, background:'#fff', borderRight:'1px solid #EAEAF0', display:'flex', flexDirection:'column', position:'fixed', top:0, left:0, bottom:0, zIndex:100, overflowY:'auto' }}>
 
-      {/* Logo */}
       <div style={{ padding:'20px 20px 16px', borderBottom:'1px solid #EAEAF0', display:'flex', alignItems:'center', gap:10 }}>
         <svg width="36" height="36" viewBox="0 0 38 38" fill="none">
           <rect x="1" y="1" width="36" height="36" rx="8" stroke="url(#sg)" strokeWidth="1.5" fill="white"/>
@@ -58,7 +83,6 @@ export default function Sidebar() {
         <span className="brand-text" style={{ fontSize:19, fontWeight:800 }}>vegas</span>
       </div>
 
-      {/* Nav principal */}
       <div style={{ padding:'14px 12px 4px' }}>
         <div style={{ fontSize:10, fontWeight:700, letterSpacing:'.1em', color:'#AEADC0', textTransform:'uppercase', padding:'0 10px', marginBottom:6 }}>principal</div>
         {principal.map(n => (
@@ -69,7 +93,6 @@ export default function Sidebar() {
         ))}
       </div>
 
-      {/* Nav gestão */}
       <div style={{ padding:'10px 12px 4px' }}>
         <div style={{ fontSize:10, fontWeight:700, letterSpacing:'.1em', color:'#AEADC0', textTransform:'uppercase', padding:'0 10px', marginBottom:6 }}>gestão</div>
         {gestao.map(n => (
@@ -80,16 +103,21 @@ export default function Sidebar() {
         ))}
       </div>
 
-      {/* Footer */}
       <div style={{ marginTop:'auto', padding:'14px 16px', borderTop:'1px solid #EAEAF0', display:'flex', alignItems:'center', gap:10 }}>
-        <div style={{ width:32, height:32, borderRadius:'50%', background:'linear-gradient(135deg,#7F77DD,#C97A7A)', display:'flex', alignItems:'center', justifyContent:'center', color:'#fff', fontSize:11, fontWeight:800, flexShrink:0 }}>MS</div>
-        <div>
-          <p style={{ fontSize:12, fontWeight:700, color:'#2C2A40', lineHeight:1.3 }}>Maria Silva</p>
-          <span style={{ fontSize:11, color:'#AEADC0' }}>Administrador</span>
+        <div style={{ width:32, height:32, borderRadius:'50%', background:'linear-gradient(135deg,#7F77DD,#C97A7A)', display:'flex', alignItems:'center', justifyContent:'center', color:'#fff', fontSize:11, fontWeight:800, flexShrink:0 }}>
+          {initials}
+        </div>
+        <div style={{ flex:1, minWidth:0 }}>
+          <p style={{ fontSize:12, fontWeight:700, color:'#2C2A40', lineHeight:1.3, overflow:'hidden', textOverflow:'ellipsis', whiteSpace:'nowrap' }}>
+            {usuario?.nome ?? '...'}
+          </p>
+          <span style={{ fontSize:11, color:'#AEADC0' }}>
+            {perfilLabel[usuario?.perfil ?? ''] ?? '...'}
+          </span>
         </div>
         <button
           onClick={handleLogout}
-          style={{ marginLeft:'auto', width:28, height:28, borderRadius:8, border:'1px solid #EAEAF0', background:'#fff', cursor:'pointer', display:'flex', alignItems:'center', justifyContent:'center', color:'#AEADC0' }}
+          style={{ width:28, height:28, borderRadius:8, border:'1px solid #EAEAF0', background:'#fff', cursor:'pointer', display:'flex', alignItems:'center', justifyContent:'center', color:'#AEADC0', flexShrink:0 }}
           title="Sair"
         >
           <Icon name="logout" />
