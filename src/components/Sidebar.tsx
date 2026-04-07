@@ -4,11 +4,11 @@ import { usePathname, useRouter } from 'next/navigation'
 import { createBrowserClient } from '@supabase/ssr'
 
 const NAV: { href: string; label: string; icon: string; badge?: string; section?: string }[] = [
-  { href:'/dashboard',   label:'Dashboard',       icon:'grid' },
-  { href:'/documentos',  label:'Documentos',      icon:'file' },
-  { href:'/atas',        label:'Atas de Reunião', icon:'table' },
-  { href:'/historico',   label:'Histórico',       icon:'clock' },
-  { href:'/admin',       label:'Administração',   icon:'settings', section:'gestão' },
+  { href:'/dashboard',  label:'Dashboard',       icon:'grid' },
+  { href:'/documentos', label:'Documentos',      icon:'file' },
+  { href:'/atas',       label:'Atas de Reunião', icon:'table' },
+  { href:'/historico',  label:'Histórico',       icon:'clock' },
+  { href:'/admin',      label:'Administração',   icon:'settings', section:'gestão' },
 ]
 
 function Icon({ name }: { name: string }) {
@@ -26,6 +26,11 @@ export default function Sidebar() {
   const path = usePathname()
   const router = useRouter()
 
+  const supabase = createBrowserClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+  )
+
   async function handleLogout() {
     await supabase.auth.signOut()
     router.push('/auth/login')
@@ -36,6 +41,7 @@ export default function Sidebar() {
 
   return (
     <aside style={{ width:230, minWidth:230, background:'#fff', borderRight:'1px solid #EAEAF0', display:'flex', flexDirection:'column', position:'fixed', top:0, left:0, bottom:0, zIndex:100, overflowY:'auto' }}>
+
       {/* Logo */}
       <div style={{ padding:'20px 20px 16px', borderBottom:'1px solid #EAEAF0', display:'flex', alignItems:'center', gap:10 }}>
         <svg width="36" height="36" viewBox="0 0 38 38" fill="none">
@@ -59,7 +65,6 @@ export default function Sidebar() {
           <Link key={n.href} href={n.href} className={`nav-item${path === n.href || path.startsWith(n.href+'/') ? ' active' : ''}`}>
             <Icon name={n.icon} />
             {n.label}
-            {n.badge && <span style={{ marginLeft:'auto', background:'#C97A7A', color:'#fff', fontSize:10, fontWeight:700, padding:'1px 6px', borderRadius:20 }}>{n.badge}</span>}
           </Link>
         ))}
       </div>
@@ -78,12 +83,19 @@ export default function Sidebar() {
       {/* Footer */}
       <div style={{ marginTop:'auto', padding:'14px 16px', borderTop:'1px solid #EAEAF0', display:'flex', alignItems:'center', gap:10 }}>
         <div style={{ width:32, height:32, borderRadius:'50%', background:'linear-gradient(135deg,#7F77DD,#C97A7A)', display:'flex', alignItems:'center', justifyContent:'center', color:'#fff', fontSize:11, fontWeight:800, flexShrink:0 }}>MS</div>
-        <div><p style={{ fontSize:12, fontWeight:700, color:'#2C2A40', lineHeight:1.3 }}>Maria Silva</p><span style={{ fontSize:11, color:'#AEADC0' }}>Administrador</span></div>
-        <button onClick={handleLogout} style={{ marginLeft:'auto', width:28, height:28, borderRadius:8, border:'1px solid #EAEAF0', background:'#fff', cursor:'pointer', display:'flex', alignItems:'center', justifyContent:'center', color:'#AEADC0', transition:'all .15s' }} title="Sair">
+        <div>
+          <p style={{ fontSize:12, fontWeight:700, color:'#2C2A40', lineHeight:1.3 }}>Maria Silva</p>
+          <span style={{ fontSize:11, color:'#AEADC0' }}>Administrador</span>
+        </div>
+        <button
+          onClick={handleLogout}
+          style={{ marginLeft:'auto', width:28, height:28, borderRadius:8, border:'1px solid #EAEAF0', background:'#fff', cursor:'pointer', display:'flex', alignItems:'center', justifyContent:'center', color:'#AEADC0' }}
+          title="Sair"
+        >
           <Icon name="logout" />
         </button>
       </div>
+
     </aside>
   )
 }
-
