@@ -1,7 +1,7 @@
 'use client'
 import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
-import { supabase } from '@/lib/supabase'
+import { createBrowserClient } from '@supabase/ssr'
 
 const NAV: { href: string; label: string; icon: string; badge?: string; section?: string }[] = [
   { href:'/dashboard',   label:'Dashboard',       icon:'grid' },
