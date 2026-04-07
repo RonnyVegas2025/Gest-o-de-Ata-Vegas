@@ -1,5 +1,5 @@
 import AppShell from '@/components/AppShell'
-import { createServerSupabase } from '@/lib/supabase'
+import { createServerSupabase } from '@/lib/supabase-server'
 
 const ACAO_CONFIG: Record<string, { label: string; bg: string; color: string; iconColor: string }> = {
   criacao:      { label:'Criação',     bg:'#EEEDFE', color:'#5B52C2', iconColor:'#7F77DD' },
